@@ -277,6 +277,9 @@ struct  HUB75_I2S_CFG {
   // Minimum refresh / scan rate needs to be configured on start due to LSBMSB_TRANSITION_BIT calculation in allocateDMAmemory()
   uint8_t min_refresh_rate;
 
+  bool flip_x;
+  bool flip_y;
+
   // struct constructor
   HUB75_I2S_CFG (
     uint16_t _w = MATRIX_WIDTH,
@@ -291,7 +294,9 @@ struct  HUB75_I2S_CFG {
     clk_speed _i2sspeed = HZ_10M,
     uint8_t _latblk = 1,
     bool _clockphase = false,
-    uint8_t _min_refresh_rate = 85
+    uint8_t _min_refresh_rate = 85,
+    bool _flip_x = false,
+    bool _flip_y = false
   ) : mx_width(_w),
       mx_height(_h),
       chain_length(_chain),
@@ -300,7 +305,9 @@ struct  HUB75_I2S_CFG {
       double_buff(_dbuff),
       latch_blanking(_latblk),
       clkphase(_clockphase),
-      min_refresh_rate (_min_refresh_rate) {}
+      min_refresh_rate (_min_refresh_rate),
+      flip_x(_flip_x),
+      flip_y(_flip_y) {}
 }; // end of structure HUB75_I2S_CFG
 
 

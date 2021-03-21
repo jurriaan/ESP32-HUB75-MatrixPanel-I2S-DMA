@@ -472,6 +472,13 @@ void IRAM_ATTR MatrixPanel_I2S_DMA::updateMatrixDMABuffer(int16_t x_coord, int16
     return;
   }
 
+  if (m_cfg.flip_x) {
+    x_coord = (PIXELS_PER_ROW - 1) - x_coord;
+  }
+  if (m_cfg.flip_y) {
+    y_coord = (m_cfg.mx_height - 1) - y_coord;
+  }
+
   /* LED Brightness Compensation. Because if we do a basic "red & mask" for example, 
 	 * we'll NEVER send the dimmest possible colour, due to binary skew.
 	 * i.e. It's almost impossible for color_depth_idx of 0 to be sent out to the MATRIX unless the 'value' of a color is exactly '1'
@@ -787,6 +794,13 @@ void MatrixPanel_I2S_DMA::hlineDMA(int16_t x_coord, int16_t y_coord, int16_t l, 
   if (x_coord+l > PIXELS_PER_ROW)
     l = PIXELS_PER_ROW - x_coord + 1;     // reset width to end of row
 
+  if (m_cfg.flip_x) {
+    x_coord = (PIXELS_PER_ROW - 1) - x_coord;
+  }
+  if (m_cfg.flip_y) {
+    y_coord = (m_cfg.mx_height - 1) - y_coord;
+  }
+
   /* LED Brightness Compensation */
 #ifndef NO_CIE1931
 	red   = lumConvTab[red];
@@ -855,6 +869,13 @@ void MatrixPanel_I2S_DMA::vlineDMA(int16_t x_coord, int16_t y_coord, int16_t l, 
 
   if (y_coord + l > m_cfg.mx_height)
     l = m_cfg.mx_height - y_coord + 1;     // reset width to end of col
+
+  if (m_cfg.flip_x) {
+    x_coord = (PIXELS_PER_ROW - 1) - x_coord;
+  }
+  if (m_cfg.flip_y) {
+    y_coord = (m_cfg.mx_height - 1) - y_coord;
+  }
 
   /* LED Brightness Compensation */
 #ifndef NO_CIE1931
